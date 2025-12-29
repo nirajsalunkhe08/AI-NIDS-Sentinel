@@ -19,7 +19,7 @@ ALLOWED_EXTENSIONS = {'pcap', 'pcapng'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'niraj-secret-key-2025'
-# MongoDB Connection (Keep your existing URI)
+
 app.config["MONGO_URI"] = "mongodb+srv://nirajsalunkhe08:iamthedanger001@smart.fu1zgdm.mongodb.net/nids_db?retryWrites=true&w=majority"
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
