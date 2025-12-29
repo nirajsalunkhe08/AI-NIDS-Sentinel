@@ -1,9 +1,4 @@
-"""
-Convert pcap to flow-level features (5-tuple aggregation).
-Usage:
-    python flow_extract.py --pcap capture.pcap --out flows.csv --timeout 60
-Note: For larger pcap files, use pyshark/tshark for performance.
-"""
+
 import argparse
 from scapy.all import rdpcap, IP, TCP, UDP
 import pandas as pd
