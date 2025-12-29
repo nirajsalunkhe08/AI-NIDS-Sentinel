@@ -14,7 +14,7 @@ from flow_extract import extract_flows
 from bson.objectid import ObjectId
 from scapy.all import sniff, IP, TCP, UDP
 
-# --- CONFIGURATION ---
+#CONFIGURATION 
 ALLOWED_EXTENSIONS = {'pcap', 'pcapng'}
 
 app = Flask(__name__)
@@ -24,14 +24,14 @@ app.config["MONGO_URI"] = "mongodb+srv://nirajsalunkhe08:iamthedanger001@smart.f
 app.config['UPLOAD_FOLDER'] = 'uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# --- INIT EXTENSIONS ---
+#INIT EXTENSIONS
 mongo = PyMongo(app)
 socketio = SocketIO(app, async_mode='threading')
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# --- GLOBAL VARS FOR LIVE SNIFFER ---
+#GLOBAL VARS FOR LIVE SNIFFER
 SNIFFING_THREAD = None
 IS_SNIFFING = False
 
@@ -49,7 +49,7 @@ def load_user(user_id):
     except: return None
     return None
 
-# --- SHARED STYLES ---
+#SHARED STYLES
 CSS_STYLE = """
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -94,7 +94,7 @@ CSS_STYLE = """
 </style>
 """
 
-# --- LIVE MONITOR TEMPLATE (With Resume & Persistent Data) ---
+# --- LIVE MONITOR TEMPLATE
 LIVE_TEMPLATE = """
 <!doctype html>
 <html lang="en">
@@ -102,7 +102,7 @@ LIVE_TEMPLATE = """
 <body>
 <nav class="navbar navbar-dark mb-4">
   <div class="container">
-    <a class="navbar-brand brand-text" href="/">🛡️ NIDS Sentinel - LIVE</a>
+    <a class="navbar-brand brand-text" href="/">NIDS Sentinel - LIVE</a>
     <div><a href="/" class="btn btn-sm btn-outline-light">Back to Upload</a></div>
   </div>
 </nav>
@@ -114,11 +114,11 @@ LIVE_TEMPLATE = """
             <p class="text-muted mb-0">Monitoring network interface for suspicious packets...</p>
         </div>
         <div class="col-md-6 text-end">
-            <button id="btn-toggle" class="btn btn-stop px-4 py-2 me-2" onclick="toggleSniffing()">⏹ STOP MONITORING</button>
+            <button id="btn-toggle" class="btn btn-stop px-4 py-2 me-2" onclick="toggleSniffing()">STOP MONITORING</button>
             
             <div id="export-area" class="export-controls d-inline-block">
-                <button class="btn btn-success" onclick="downloadCSV()">📄 Export CSV</button>
-                <button class="btn btn-danger" onclick="downloadPDF()">📑 Export PDF</button>
+                <button class="btn btn-success" onclick="downloadCSV()"> Export CSV</button>
+                <button class="btn btn-danger" onclick="downloadPDF()"> Export PDF</button>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@ LIVE_TEMPLATE = """
     <div class="row g-4 mb-3">
         <div class="col-md-4"><div class="stat-card"><div class="stat-title">Packets Scanned</div><div class="stat-value" id="pkt-count">0</div></div></div>
         <div class="col-md-4"><div class="stat-card danger"><div class="stat-title">Threats Detected</div><div class="stat-value text-danger" id="threat-count">0</div></div></div>
-        <div class="col-md-4"><div class="stat-card"><div class="stat-title">Status</div><div class="stat-value fs-4" id="status-text">Active 🟢</div></div></div>
+        <div class="col-md-4"><div class="stat-card"><div class="stat-title">Status</div><div class="stat-value fs-4" id="status-text">Active </div></div></div>
     </div>
 
     <div class="row">
@@ -169,7 +169,7 @@ LIVE_TEMPLATE = """
         if (msg.risk === 'High') {
             threatCount++;
             document.getElementById('threat-count').innerText = threatCount;
-            newLine.innerHTML = `<span class="live-alert">⚠️ ALERT: ${logText} (Suspicious Port/Flag)</span>`;
+            newLine.innerHTML = `<span class="live-alert"> ALERT: ${logText} (Suspicious Port/Flag)</span>`;
         } else {
             newLine.innerText = logText;
         }
@@ -194,7 +194,7 @@ LIVE_TEMPLATE = """
             btn.classList.remove('btn-stop');
             btn.classList.add('btn-resume');
             
-            status.innerText = "Paused 🟠";
+            status.innerText = "Paused ";
             exports.style.display = "inline-block"; // Show Export Buttons
             
             var msg = document.createElement('div');
@@ -208,11 +208,11 @@ LIVE_TEMPLATE = """
             isRunning = true;
             
             // UI Updates
-            btn.innerText = "⏹ STOP MONITORING";
+            btn.innerText = " STOP MONITORING";
             btn.classList.remove('btn-resume');
             btn.classList.add('btn-stop');
             
-            status.innerText = "Active 🟢";
+            status.innerText = "Active ";
             exports.style.display = "none"; // Hide Export Buttons while running
             
             var msg = document.createElement('div');
@@ -279,16 +279,14 @@ LIVE_TEMPLATE = """
 </html>
 """
 
-# --- ORIGINAL TEMPLATES (LOGIN, REGISTER, HISTORY, DASHBOARD) ---
-# Paste your original templates here if needed, or use the ones from previous steps. 
-# For brevity, I am including the exact same ones so you can just copy-paste the whole file.
+# --- ORIGINAL TEMPLATES
 
 LOGIN_TEMPLATE = """
 <!doctype html>
 <html lang="en">
 <head><title>Login - NIDS</title>""" + CSS_STYLE + """</head>
 <body>
-<nav class="navbar navbar-dark mb-4"><div class="container"><a class="navbar-brand brand-text" href="/">🛡️ NIDS Sentinel</a></div></nav>
+<nav class="navbar navbar-dark mb-4"><div class="container"><a class="navbar-brand brand-text" href="/"> NIDS Sentinel</a></div></nav>
 <div class="container">
     {% with messages = get_flashed_messages() %}
       {% if messages %}<div class="alert alert-warning text-center">{% for msg in messages %}{{ msg }}{% endfor %}</div>{% endif %}
@@ -315,7 +313,7 @@ REGISTER_TEMPLATE = """
 <html lang="en">
 <head><title>Register - NIDS</title>""" + CSS_STYLE + """</head>
 <body>
-<nav class="navbar navbar-dark mb-4"><div class="container"><a class="navbar-brand brand-text" href="/">🛡️ NIDS Sentinel</a></div></nav>
+<nav class="navbar navbar-dark mb-4"><div class="container"><a class="navbar-brand brand-text" href="/"> NIDS Sentinel</a></div></nav>
 <div class="container">
     {% with messages = get_flashed_messages() %}
       {% if messages %}<div class="alert alert-warning text-center">{% for msg in messages %}{{ msg }}{% endfor %}</div>{% endif %}
@@ -341,7 +339,7 @@ HISTORY_TEMPLATE = """
 <body>
 <nav class="navbar navbar-dark mb-4">
   <div class="container">
-    <a class="navbar-brand brand-text" href="/">🛡️ NIDS Sentinel</a>
+    <a class="navbar-brand brand-text" href="/"> NIDS Sentinel</a>
     <div>
         <a href="/" class="btn btn-sm btn-outline-light me-2">Back to Dashboard</a>
         <a href="/logout" class="btn btn-sm btn-danger">Logout</a>
@@ -410,16 +408,16 @@ DASHBOARD_TEMPLATE = """
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark mb-4">
   <div class="container">
-    <a class="navbar-brand brand-text" href="/">🛡️ NIDS Sentinel</a>
+    <a class="navbar-brand brand-text" href="/"> NIDS Sentinel</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav ms-auto mt-2 mt-lg-0">
-        <a href="/live" class="btn btn-sm btn-danger mb-2 mb-lg-0 me-lg-2 w-100">🔴 Live Monitor</a>
+        <a href="/live" class="btn btn-sm btn-danger mb-2 mb-lg-0 me-lg-2 w-100"> Live Monitor</a>
         {% if current_user.is_authenticated %}
             <span class="text-white me-3 align-self-center d-none d-lg-block">User: {{ current_user.username }}</span>
-            <a href="/history" class="btn btn-sm btn-outline-light mb-2 mb-lg-0 me-lg-2 w-100">📜 History</a>
+            <a href="/history" class="btn btn-sm btn-outline-light mb-2 mb-lg-0 me-lg-2 w-100"> History</a>
             <a href="/logout" class="btn btn-sm btn-outline-danger w-100">Logout</a>
         {% else %}
             <a href="/login" class="btn btn-sm btn-outline-info w-100">Login</a>
@@ -442,7 +440,7 @@ DASHBOARD_TEMPLATE = """
   <div class="row justify-content-center mt-4">
     <div class="col-12 col-md-8 col-lg-6">
       <div class="upload-section">
-        <div class="mb-3"><span style="font-size: 3rem;">📂</span></div>
+        <div class="mb-3"><span style="font-size: 3rem;">📁</span></div>
         <h3 class="fw-bold mb-2">Upload Traffic Capture</h3>
         <p class="text-muted mb-4">Select a .pcap file to analyze.</p>
         <form id="uploadForm" method="post" action="/" enctype="multipart/form-data">
@@ -467,13 +465,13 @@ DASHBOARD_TEMPLATE = """
     
     <div class="btn-group-custom">
         <button onclick="downloadReportCSV()" class="btn btn-outline-success btn-custom-action">
-            📄 Export CSV
+             Export CSV
         </button>
         <button onclick="downloadReportPDF()" class="btn btn-outline-danger btn-custom-action">
-            📑 Export PDF
+            Export PDF
         </button>
         <a href="/" class="btn btn-primary btn-custom-action">
-            🔄 New Scan
+             New Scan
         </a>
     </div>
   </div>
@@ -573,7 +571,7 @@ def prepare_df(flow_df):
         X = X[COLUMNS]
     return X.fillna(0)
 
-# --- LIVE SNIFFER LOGIC ---
+#LIVE SNIFFER LOGIC
 def background_sniffer():
     global IS_SNIFFING
     print("[*] Sniffer Thread Started...")
@@ -619,7 +617,7 @@ def process_packet(packet):
         except Exception as e:
             pass
 
-# --- SOCKET EVENTS ---
+#SOCKET EVENTS
 @socketio.on('stop_sniffer')
 def stop_sniffer():
     global IS_SNIFFING
