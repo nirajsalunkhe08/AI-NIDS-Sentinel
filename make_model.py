@@ -3,8 +3,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 
-# 1. Define dummy data with ALL columns your app expects
-# These match the output of flow_extract.py
+
 data = {
     'sport': [443, 80, 53, 22],
     'dport': [5555, 1234, 53, 80],
@@ -26,17 +25,17 @@ data = {
 print("[*] Creating dummy training data...")
 df = pd.DataFrame(data)
 
-# 2. Prepare X (features) and y (labels)
+#Prepare X (features) and y (labels)
 # We select only numeric types and drop the label for X
 X = df.select_dtypes(include=[np.number]).drop(columns=['label'])
 y = df['label']
 
-# 3. Train the model
+#Train the model
 print("[*] Training RandomForest model...")
 clf = RandomForestClassifier(n_estimators=10, random_state=42)
 clf.fit(X, y)
 
-# 4. Save the model AND the column names (critical for app.py)
+#Save the model AND the column names
 output_file = "nids_model.joblib"
 print(f"[*] Saving model to {output_file}...")
 joblib.dump({'model': clf, 'columns': X.columns.tolist()}, output_file)
